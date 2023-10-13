@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+amazon_tracker.access_amazon_products,access_amazon_products,amazon_tracker.model_amazon_products,base.group_user,1,1,1,1
+amazon_tracker.access_generate_product,access_generate_product,amazon_tracker.model_generate_product,base.group_user,1,1,1,1

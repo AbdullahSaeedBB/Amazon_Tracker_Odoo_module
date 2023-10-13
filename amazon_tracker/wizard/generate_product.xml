@@ -1,0 +1,41 @@
+<odoo>
+
+    <record id="wizard_amz_generate_product" model="ir.ui.view">
+        <field name="name">Amazon Generate Product Wizard</field>
+        <field name="model">generate.product</field>
+        <field name="arch" type="xml">
+            <form>
+                <p>First, you have to add the ASIN of the product and then click <b>'+'</b>, when you finish adding all
+                    ASINs of the products, click <b>Generate</b> to start tracking them.
+                </p>
+                <br/>
+                <group>
+                    <group style="width: 80%;">
+                        <field name="barcode" placeholder="e.g B012CF41ZA"
+                               style="border: 2px solid #eee; border-radius: 5px"/>
+                    </group>
+                    <group style="width: 20%;">
+                        <button string="+" name="add_asin" type="object" class="oe_highlight"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="all_barcodes" string=""/>
+                </group>
+                <group>
+                    <field name="length"/>
+                </group>
+                <footer>
+                    <button string="Generate" name="generating" type="object" class="oe_highlight"/>
+                    <button string="Clear ASINS" name="clear_asins" type="object"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_amz_generate_product" model="ir.actions.act_window">
+        <field name="name">Amazon Generate Product</field>
+        <field name="res_model">generate.product</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,197 @@
+<odoo>
+
+    <record id="kanban_amz_products" model="ir.ui.view">
+        <field name="name">Amazon Products Kanban</field>
+        <field name="model">amazon.products</field>
+        <field name="arch" type="xml">
+            <kanban create="false">
+                <field name="id"/>
+                <field name="image"/>
+                <field name="name"/>
+                <field name="price"/>
+                <field name="rating"/>
+                <field name="reviews"/>
+                <field name="status"/>
+                <field name="seller"/>
+                <templates>
+                    <t t-name="kanban-box"> <!-- oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record -->
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                            <div class="o_kanban_image_fill_left d-none d-md-block"
+                                 t-attf-style="background-image:url('#{kanban_image('amazon.products', 'image', record.id.raw_value, placeholder)}')">
+                                <strong>
+                                    <field name="status" widget="badge" class="o_kanban_image_inner_pic"
+                                           decoration-danger="status == 'Not Available'"
+                                           decoration-success="status == 'In Stock'" decoration-info="1"
+                                           optional="show"/>
+                                </strong>
+                            </div>
+                            <div class="oe_kanban_details d-flex flex-column">
+                                <strong>
+                                    <field name="short_title"/>
+                                </strong>
+                                <div class="o_kanban_tags_section"/>
+                                <field name="price"/>
+                                <br/>
+                                <ul style="margin-top: auto;">
+                                    <div class="oe_module_action d-flex flex-wrap justify-content-between"
+                                         style="height: 20px;">
+                                        <li>
+                                            <p t-if="record.seller.raw_value"
+                                               style="width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                Sold by:
+                                                <b>
+                                                    <field name="seller"/>
+                                                </b>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <button name="go_product_page" help="Go to the product page"
+                                                    type="object" class="fa fa-external-link"/>
+                                        </li>
+                                    </div>
+                                    <div class="oe_module_action d-flex flex-wrap justify-content-between"
+                                         style="height: 20px;">
+                                        <li>
+                                            <b>
+                                                <field name="rating"/>
+                                            </b>
+                                            out of 5 stars
+                                        </li>
+                                        <li>
+                                            <b>
+                                                <field name="reviews"/>
+                                            </b>
+                                        </li>
+                                        <li>
+                                            <!--                                            <button name="update_product" type="object" class="fa fa-refresh"/>-->
+                                            <button name="update_product" help="Update the product"
+                                                    type="object" class="fa fa-refresh"/>
+
+                                        </li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="form_amz_products" model="ir.ui.view">
+        <field name="name">Amazon Products Form</field>
+        <field name="model">amazon.products</field>
+        <field name="arch" type="xml">
+            <form create="false" readonly="1">
+                <header>
+                    <button string="Update product" name="update_product" type="object" class="oe_highlight"/>
+                    <button string="Go product page" name="go_product_page" type="object"/>
+                </header>
+                <sheet>
+                    <div class="oe_avatar" style="display: inline-grid; text-align: right;">
+                        <field name="image" widget="image" optional="show"/>
+                        <button string="Open image" name="open_img" type="object"/>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <p style="font-size: 20px;">
+                            <field name="price"/>
+                            <field name="status" widget="badge" decoration-danger="status == 'Not Available'"
+                                   decoration-success="status == 'In Stock'" decoration-info="1"/>
+                        </p>
+                        <br/>
+                    </div>
+                    <group>
+                        <group>
+                            <group>
+                                <label for="rating"/>
+                                <div class="o_row">
+                                    <field name="rating" class="o_hr_narrow_field"/>
+                                    <span>out of 5 stars</span>
+                                </div>
+                                <field name="reviews"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="asin"/>
+                            <field name="seller"/>
+                        </group>
+                    </group>
+                    <group>
+                    </group>
+                    <notebook>
+                        <page string="History product" name="history">
+                            <group>
+                                <group>
+                                    <field name="product_datetime"/>
+                                </group>
+                                <group>
+                                    <field name="much_update"/>
+                                </group>
+                            </group>
+                            <br/>
+                            <group>
+                                <field name="Html_info" placeholder="Enter notes about this product" widget="html"
+                                       options="{'collaborative': true}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="search_amz_products" model="ir.ui.view">
+        <field name="name">Amazon Product Search</field>
+        <field name="model">amazon.products</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Available" name="available" domain="[('status', '!=', 'Not Available')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="tree_amz_products" model="ir.ui.view">
+        <field name="name">Amazon Products Tree</field>
+        <field name="model">amazon.products</field>
+        <field name="arch" type="xml">
+            <tree create="false">
+                <header>
+                    <button string="Update products" name="update_products" type="object" class="oe_highlight "
+                            position="before"/>
+                </header>
+                <field name="image" widget="image" options="{'size': [50, 50]}" optional="show"/>
+                <field name="name"/>
+                <field name="price"/>
+                <field name="rating" string="Rating"/>
+                <field name="reviews" optional="hide"/>
+                <field name="status" widget="badge" decoration-danger="status == 'Not Available'"
+                       decoration-success="status == 'In Stock'" decoration-info="1" optional="show"/>
+                <field name="seller" optional="show"/>
+                <button name="update_product" help="Update the product"
+                        type="object" class="fa fa-refresh oe_highlight"/>
+                <button name="go_product_page" help="Go to the product page"
+                        type="object" class="fa fa-external-link"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_amz_products" model="ir.actions.act_window">
+        <field name="name">Amazon Products</field>
+        <field name="res_model">amazon.products</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                <b>Add</b>
+                Amazon
+                <b>product to tracking it.</b>
+            </p>
+        </field>
+    </record>
+
+</odoo>

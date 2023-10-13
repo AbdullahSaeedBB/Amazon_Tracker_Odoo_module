@@ -1,0 +1,20 @@
+<odoo>
+
+    <menuitem id="main_menu"
+              name="Amazon tracker"
+              sequence="20">
+        <menuitem id="menu_products"
+                  name="Products"
+                  sequence="20">
+            <menuitem id="menu_products_products"
+                      name="Products"
+                      action="action_amz_products"
+                      sequence="20"/>
+            <menuitem id="menu_generate_products"
+                      name="Generate product"
+                      action="action_amz_generate_product"
+                      sequence="30"/>
+        </menuitem>
+    </menuitem>
+
+</odoo>

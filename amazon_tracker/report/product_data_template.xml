@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <template id="report_amazon_product_id_data">
+        <t t-call="web.basic_layout">
+            <div class="clearfix bg-secondary">
+                <p class="float-start">Report date:
+                    <t t-esc="datetime.datetime.now().strftime('%Y/%m/%d %H:%M')"/>
+                </p>
+                <p class="float-end">Product:
+                    <t t-esc="len(docs)"/>
+                </p>
+            </div>
+            <hr/>
+            <t t-foreach="docs" t-as="p">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <table class="table">
+                                <tr>
+                                    <td width="20%" align="center">
+                                        <div>
+                                            <h6 t-field="p.asin"
+                                                style="color: #565959; text-align: center; margin: 15px;"/>
+                                        </div>
+                                        <div style="margin: 0; padding: 0;">
+                                            <img t-if="p.image"
+                                                 t-att-src="image_data_uri(p.image)"
+                                                 style="max-width: 90%; max-height: 100pt; margin-bottom: -50px;"
+                                                 alt="Product image"/>
+                                            <img t-else=""
+                                                 t-att-src="'/web/static/img/placeholder.png'"
+                                                 style="max-width: 90%; max-height: 100pt;"/>
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align: top;">
+                                        <table class="table table-condensed">
+                                            <tbody>
+                                                <tr>
+                                                    <h4 t-if="len(p.name) &lt; 180" style="line-height: 33px;"
+                                                        t-field="p.name"/>
+                                                    <h5 t-else="" style="line-height: 27px;" t-field="p.name"/>
+
+                                                    <p t-if="p.seller" style="color: #007185;">Sold By:
+                                                        <strong t-field="p.seller"/>
+                                                    </p>
+                                                </tr>
+                                                <tr>
+                                                    <div class="clearfix bg-secondary">
+                                                        <p class="float-start" style="margin: 0px;">
+                                                            <!-- a stars rating, by using for loop, check if the rating is greater than i to add a star in the range.-->
+                                                            <span t-field="p.rating" style="margin-right: 6px"/>
+                                                            <t t-foreach="[1, 2, 3, 4, 5]" t-as="i">
+                                                                <i t-if="p.rating+0.3 &gt;= i" class="fa fa-star"
+                                                                   style="color: orange;"/>
+                                                                <i t-elif="p.rating &gt;= (i-0.6) and p.rating &lt;= (i-0.4)"
+                                                                   class="fa fa-star-half-o"
+                                                                   style="color: orange;"/>
+                                                                <i t-else="" class="fa fa-star-o"
+                                                                   style="color: orange;"/>
+                                                            </t>
+                                                            <span style="margin-left: 25px; color: #007185;">
+                                                                <span t-field="p.reviews"/>
+                                                                ratings
+                                                            </span>
+                                                        </p>
+                                                        <a t-attf-href="https://www.amazon.com/dp/#{p.asin}"
+                                                           class="float-end"
+                                                           style="text-decoration: underline; margin: 0px;">
+                                                            Go To the Product Page
+                                                        </a>
+                                                    </div>
+                                                </tr>
+                                                <hr/>
+                                                <tr style="border: 0;">
+                                                    <td style="text-align: left; border: 0; padding: 0 10px;">
+                                                        <h4 t-field="p.price"/>
+                                                    </td>
+                                                    <td style="text-align: right; border: 0; padding: 0 10px;">
+                                                        <h5 t-if="p.status == 'Not Available'" class="text-danger">
+                                                            Not Available
+                                                        </h5>
+                                                        <h5 t-elif="p.status == 'In Stock'" class="text-success">
+                                                            In Stock
+                                                        </h5>
+                                                        <h5 t-else="" t-field="p.status" class="text-primary"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

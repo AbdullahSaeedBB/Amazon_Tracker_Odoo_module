@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="report_amazon_product_data" model="ir.actions.report">
+        <field name="name">Amazon products Info</field>
+        <field name="model">amazon.products</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">amazon_tracker.report_amazon_product_id_data</field>
+        <field name="report_file">amazon_tracker.report_amazon_product_id_data</field>
+        <field name="binding_model_id" ref="model_amazon_products"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

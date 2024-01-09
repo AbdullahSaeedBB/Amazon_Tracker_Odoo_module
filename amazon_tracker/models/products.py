@@ -26,7 +26,7 @@ class Amazon(models.Model):
     # Product info
     product_datetime = fields.Date('Date added', readonly=True, default=lambda self: fields.Datetime.now(),
                                    help="Date the product was generated in the module.")
-    much_update = fields.Integer("Much update", readonly=True, help="Times that product updated.")
+    much_update = fields.Integer("Update times", readonly=True, help="Times that product updated.")
 
     # Go to product page in Amazon
     def go_product_page(self):

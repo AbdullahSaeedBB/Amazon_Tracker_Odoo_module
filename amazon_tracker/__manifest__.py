@@ -11,6 +11,8 @@
         "wizard/generate_product.xml",
         "views/products.xml",
         "views/menu_items.xml",
+        "report/product_data_template.xml",
+        "report/reports.xml",
     ],
     'images': ['static/description/bannar.gif'],
     'application': True,
